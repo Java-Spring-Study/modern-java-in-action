@@ -270,7 +270,6 @@ List<String> names = menu.stream()
 - **중간 연산** : filter, map, limit 등으로 서로 연결하여 파이프라인을 형성한다.
 - **최종 연산** : collect로 파이프라인을 실행한 다음 닫는다.
 
-![image-20230106142002948](C:\Users\oryuk\AppData\Roaming\Typora\typora-user-images\image-20230106142002948.png)
 
 ```java
 List<String> names = menu.stream()
