@@ -218,7 +218,7 @@ if (result.stream().noneMatch(i -> i.length() <= 4)) {
 
 위 결과를 보면 `["test11","test2","test33"]` 모두 4보다 크기 때문에 `true`를 반환한다.
 
-*쇼트서킷* : 지금까지 사용했던 `allMatch`, `noneMatch`, `limit` 등 모든 요소를 처리하지 않고도 결과를 반환할 수 있기 때문에 쇼트서킷 연산이라고 부른다.
+*쇼트서킷* : 지금까지 사용했던 `allMatch`, `noneMatch`, `limit` 등 모든 요소를 처리하지 않고도 중간에 결과를 반환할 수 있기 때문에 쇼트서킷 연산이라고 부른다.
 
 ## 리듀싱
 
@@ -251,7 +251,7 @@ int sum2 = numbers.stream().reduce(0, Integer::sum);
 
 하지만 `reduce`를 사용하면 한 줄로 해결할 수 있다. `sum1`과 `sum2`는 같은 결과가 나오며, 특히 `sum2` 변수를 보면 메서드 참조를 사용하여 코드를 더욱 간결하게 만들 수 있었다.
 
-위 코드에서 `reduce`의 첫 번째 값인 0은 초깃값이며, 두 번째 값은 함수형 인터페이스인 `BinaryOperator`을 사용하여 a에 0, b에 1을 넣어서 더한 결과 값인 1이라는 새로운 누적값이 만들어진다. (<a href="https://johngrib.github.io/wiki/java-functional-interface/#binaryoperator">BinaryOperator 설명</a>)
+위 코드에서 `reduce`의 첫 번째 값인 0은 초깃값이며, 두 번째 값은 함수형 인터페이스인 `BinaryOperator`을 사용하여 a에 0, b에 1을 넣어서 더한 값인 1이라는 새로운 누적값이 만들어진다. (<a href="https://johngrib.github.io/wiki/java-functional-interface/#binaryoperator">BinaryOperator 설명</a>)
 
 즉 `sum` 변수에 값이 누적되는 것과 똑같은 메커니즘이다.
 
@@ -277,6 +277,12 @@ T reduce(T identity, BinaryOperator<T> accumulator);
 Optional<T> findFirst();
 Optional<T> findAny();
 ```
+
+필터링된 요소들 중에서 하나를 선택하는 방법으로 `findAny`, `findFirst`가 존재한다.
+
+`findFirst`는 순서를 고려하기 때문에 첫 번째 요소를 반환한다.
+
+`findAny`는 가장 먼저 찾은 요소를 반환하기 때문에, 순서를 보장받지 못할 수 있는 병렬 처리에서 하나를 반환하고 싶을 때 사용된다.
 
 책에서 언급되었던 `findFirst`, `findAny`의 반환 타입도 `Optional`이 감싸진 형태인데, 스트림에 요소가 무조건 있다고 보장받을 수 없기 때문이다.
 
@@ -313,14 +319,14 @@ int calories = menu.stream() // Stream<Dish>
             .sum();
 ```
 
-이전 예시와 위 예시를 보면 `Stream<Integer>`와 `IntStream`의 차이가 있음을 확인할 수 있다. 또한 `IntStream`에 구현된 `sum()` 메서드를 호출하여 합계를 얻어낼 수 있었다.
+이전 예시와 위 예시를 보면 `Stream<Integer>`와 `IntStream`의 차이가 있음을 확인할 수 있다. 또한 `IntStream`에 구현되어 있는 `sum()` 메서드를 호출하여 합계를 얻어낼 수 있었다.
 
 ```java
 IntStream intStream = menu.stream().mapToInt(Dish::getCalories);
 Stream<Integer> stream = intStream.boxed();
 ```
 
-위와 같이 기본형 특화 스트림을 박싱할 수도 있다. (Stream의 메서드들 사용 가능)
+위와 같이 기본형 특화 스트림을 박싱할 수도 있다. (Stream의 기능들을 사용할 수 있다.)
 
 ## 스트림 만들기
 
@@ -340,7 +346,7 @@ System.out.println(result);
 // [4, 5, 5]
 ```
 
-매핑(`map`) 설명할 때 사용했던 `Stream.of`가 값으로 스트림을 만들 때 사용한다. `Stream.empty()`로 빈 스트림을 만들 수도 있다.
+매핑(`map`)에 대해 설명할 때 사용했던 `Stream.of`가 값으로 스트림을 만들 때 사용한다. `Stream.empty()`로 빈 스트림을 만들 수도 있다.
 
 ### Stream.ofNullable
 
@@ -429,6 +435,6 @@ Stream.generate(Math::random)
 
 위 코드는 무한 스트림 상태에서 랜덤 난수를 계속 생성하며, 0.6보다 큰 경우의 값을 5개 뽑아낸다.
 
-`generate`는 책의 예시에서 나온대로 난수 생성과 같이 연속적으로 계산하지 않을 때 사용한다. (난수는 `iterate`에서 사용된 예시 코드처럼 값을 연속적으로 계산하지 않는다. - 상태가 없는 메서드, 나중에 계산에 사용할 어떤 값도 저장해두지 않는다.)
+`generate`는 난수 생성과 같이 연속적으로 계산하지 않을 때 사용한다. (난수는 `iterate`에서 사용된 예시 코드처럼 값을 연속적으로 계산하지 않는다. - 상태가 없는 메서드, 나중에 계산으로 사용할 어떤 값도 저장해두지 않는다.)
 
 * `Supplier`는 매개변수를 받지 않고 반환하는 함수형 인터페이스이다.

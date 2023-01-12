@@ -22,7 +22,7 @@ Map<Currency, List<Transaction>> transactionsByCurrencies =
 
 다수준 그룹화를 할 때 컬렉터를 사용하여 위 코드처럼 *간결하고 유연하게* 작성할 수 있다.
 
-위 예시를 보면 직접 구현한 코드들이 `collect`으로 리듀싱 연산을 이용해서 컬렉터가 작업을 처리한다.
+위 예시를 보면 직접 구현한 코드들이 `collect`로 리듀싱 연산을 이용해서 컬렉터가 작업을 처리한다.
 
 `Collectors` 클래스에는 다양한 유틸리티 메서드들을 제공한다.
 
@@ -241,7 +241,7 @@ public static <T, U> Collector<T, ?, U> reducing(U identity, Function<? super T,
 
 지금까지 사용한 메서드들은 `요약 팩터리 메서드`, `특화된 컬렉터`라고 불리는데,
 
-즉 자주 사용되는 기능들을 메서드로 구현되어 있어 편리하게 코드를 작성할 수 있었다.
+즉 자주 사용되는 기능들이 메서드로 구현되어 있어 편리하게 코드를 작성할 수 있었다.
 
 `reducing()`은 범용 팩터리 메서드이며, 이전에 사용했던 `reduce`처럼 범용적으로 코드를 작성할 수 있다.
 
@@ -296,11 +296,11 @@ static public class Dish {
 // 100
 ```
 
-첫 번째 인수는 초기값이며, 두 번째는 반환 함수, 세 번쨰는 `BinaryOperator` 함수형 인터페이스를 통해 기존 값과 추가되는 값을 인자로 받아서 결과적으로 문자가 합쳐진 형태로 반환한다. 비슷한 형식으로 칼로리 합계도 계산할 수 있다.
+첫 번째 인수는 초기값이며, 두 번째는 반환 함수, 세 번쨰는 `BinaryOperator` 함수형 인터페이스를 통해 기존 값과 추가되는 값을 인자로 받아서 결과적으로 문자가 합쳐진 형태로 반환한다. 비슷한 방법으로 칼로리 합계도 계산할 수 있다.
 
 `joining()`을 사용했을 때보다 코드가 길어졌으며, `joining()`에 비해 코드가 직관적이지 않다고 볼 수 있다.
 
-또한 `reducing`에 인수를 하나만 넣어서(람다식) 제일 긴 이름, 높은 칼로리를 찾을 수도 있다.
+또한 `reducing`에 인수를 하나만 넣어서(람다식) 제일 긴 이름, 높은 칼로리를 찾을 수도 있다. (초깃값이 없으므로 Optional 타입 사용)
 
 ```java
 System.out.println(menu.stream().collect(reducing(0, Dish::getCalories, Integer::sum)));
@@ -373,7 +373,7 @@ static public class Dish {
 
 `groupingBy`는 데이터 집합을 하나 이상의 특성으로 그룹화하는 연산에서 사용된다. 
 
-결과를 보면 이름을 기준으로 분류가 정상적으로 되었음을 확인할 수 있다. 이는 6장 도입부에서 설명했던 예시 코드인 `groupingBy`를 사용하여 한 줄로 그룹화를 할 수 있었다.
+결과를 보면 이름을 기준으로 분류가 정상적으로 되었음을 확인할 수 있다. 이는 6장 도입부에서 설명했던 엄청 긴 코드에서 `groupingBy`를 사용하여 한 줄로 그룹화한 것을 생각하면 되겠다.
 
 ```java
 // 이전에 선언했던 List<Dish> menu 변수 사용
@@ -442,7 +442,7 @@ DishMap.entrySet().stream().forEach(i -> {
 // test34
 ```
 
-`mapping`을 사용하면 `map`처럼 매핑을 할 수 있다. 특히 `Map`이 감싸고 있는 상황에서 요소를 조작할 수 있다는 것이 큰 장점이라고 생각한다.
+`mapping`은 `map`처럼 매핑을 할 수 있다. 특히 `Map`으로 감싸고 있는 상황에서 데이터를 자유롭게 조작할 수 있다는 것이 큰 장점이라고 생각한다.
 
 ~~`flatMapping`~~ : 아직 제대로 이해를 못해서 정리를 못했습니다...
 
@@ -480,9 +480,9 @@ DishMap.entrySet().stream().forEach(i -> {
 // test 120
 ```
 
-컬렉팅 결과를 다른 형식에 적용하는 방법으로 `collectingAndThen`이 있다. 위 코드는 비효율적이긴 합니다..
+컬렉팅 결과를 다른 형식에 적용하는 방법으로 `collectingAndThen`이 있다. (~~위 코드는 비효율적이긴 합니다..~~)
 
-`groupingBy`에서 `Dish::getName`을 사용하여 이름을 기준으로 그룹핑을 한 후에 `collectingAndThen`을 사용하여 칼로리가 최대인 하나를 선택하는 방식으로 변경되었다 (`List<Dish>` -> `Dish`)
+`groupingBy`에서 `Dish::getName`을 사용하여 이름을 기준으로 그룹핑을 한 후에 `collectingAndThen`을 사용하여 칼로리가 최대인 하나를 선택하는 방식으로 변경되었다. (`List<Dish>` -> `Dish`)
 
 동작 방식을 보면 이전에 설명했던 `filtering`, `mapping`과 같이 이전 결과를 바탕으로 새로운 결과를 만들어낸다.
 
@@ -523,3 +523,72 @@ Map<Boolean, List<Dish>> DishMap2 = menu.stream().collect(partitioningBy(i -> i.
 `DishMap1`은 `Dish::getName`을 사용하여 이름을 기준으로 *그룹핑*을 한 것이지만, `DishMap2`는 이름이 `test`인지 아닌지를 기준으로 *파티셔닝*했다고 볼 수 있다.
 
 ## Collector 인터페이스
+
+```java
+// Collectors.class
+
+static {
+    CH_CONCURRENT_ID = Collections.unmodifiableSet(EnumSet.of(Characteristics.CONCURRENT, Characteristics.UNORDERED, Characteristics.IDENTITY_FINISH));
+    CH_CONCURRENT_NOID = Collections.unmodifiableSet(EnumSet.of(Characteristics.CONCURRENT, Characteristics.UNORDERED));
+    CH_ID = Collections.unmodifiableSet(EnumSet.of(Characteristics.IDENTITY_FINISH));
+    CH_UNORDERED_ID = Collections.unmodifiableSet(EnumSet.of(Characteristics.UNORDERED, Characteristics.IDENTITY_FINISH));
+    CH_NOID = Collections.emptySet();
+    CH_UNORDERED_NOID = Collections.unmodifiableSet(EnumSet.of(Characteristics.UNORDERED));
+}
+
+static class CollectorImpl<T, A, R> implements Collector<T, A, R> {
+    private final Supplier<A> supplier;
+    private final BiConsumer<A, T> accumulator;
+    private final BinaryOperator<A> combiner;
+    private final Function<A, R> finisher;
+    private final Set<Collector.Characteristics> characteristics;
+
+    CollectorImpl(Supplier<A> supplier, BiConsumer<A, T> accumulator, BinaryOperator<A> combiner, Function<A, R> finisher, Set<Collector.Characteristics> characteristics) {
+        this.supplier = supplier;
+        this.accumulator = accumulator;
+        this.combiner = combiner;
+        this.finisher = finisher;
+        this.characteristics = characteristics;
+    }
+
+    CollectorImpl(Supplier<A> supplier, BiConsumer<A, T> accumulator, BinaryOperator<A> combiner, Set<Collector.Characteristics> characteristics) {
+        this(supplier, accumulator, combiner, Collectors.castingIdentity(), characteristics);
+    }
+}
+
+public static <T> Collector<T, ?, List<T>> toList() {
+    return new CollectorImpl(ArrayList::new, List::add, (left, right) -> {
+        left.addAll(right);
+        return left;
+    }, CH_ID);
+}
+```
+
+`Collector` 인터페이스가 어떻게 사용되고 있는지 알 수 있는 제일 쉬운 방법은 각각의 요구사항이 실제로 어떻게 구현되어 있는지 확인하면 된다.
+
+*`supplier - 새로운 결과 컨테이너 만들기`* : 데이터를 저장할 빈 공간을 생성해야 한다. `toList()`는 `ArrayList::new`를 사용하여 빈 리스트를 생성하였다.
+
+*`accumulator - 결과 컨테이너에 요소 추가하기`* : 리듀싱 연산을 수행하는 함수를 반환한다. (요소를 추가하는 기능을 요구한다.) `toList()`는 `List::add`를 사용하여 데이터를 추가한다.
+
+*`finisher - 최종 변환값을 결과 컨테이너로 적용하기`* : 스트림 탐색을 끝낸 객체를 최종 결과로 반환하는 메서드라고 한다. `toList()`는 `CH_ID`라는 변수가 들어있는데 `Characteristics.IDENTITY_FINISH`
+
+*`combiner - 두 결과 컨테이너 병합`* : 리듀싱 연산에서 사용할 함수를 반환한다. `toList()`에서 람다식으로 구현된 `combiner` 코드를 보면 `left`에서 `right` 값을 계속 누적하여 최종적으로 `left`를 반환하고 있다. (`reduce`에서 계속 추가되는 메커니즘과 비슷하다고 보면 될 것 같다.)
+
+*`characetristics`* : 컬렉터의 연산을 정의하는 불변 집합을 반환한다. 즉 어떤 방식으로 처리할 것인지 힌트를 제공해준다고 볼 수 있다. 
+
+`UNORDERED` : 리듀싱 결과가 순서에 영향을 받지 않는다.
+
+`CONCURRENT` : 병렬 리듀싱을 수행할 수 있다. `UNORDERED`를 함께 설정하지 않으면 정렬되지 않는 상황에서만 병렬 리듀싱을 수행할 수 있다. (Collectors.class에 선언된 static 필드 값들을 보면 다양한 형태로 설정이 되어 있다.)
+
+`IDENTIFY_FINISH` : 리듀싱 결과로 만들어진 객체를 바로 사용할 수 있다. (일반적인 경우에 이를 사용한다.)
+
+```java
+public static <T, K, U, M extends ConcurrentMap<K, U>> Collector<T, ?, M> toConcurrentMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends U> valueMapper, BinaryOperator<U> mergeFunction, Supplier<M> mapFactory) {
+    BiConsumer<M, T> accumulator = (map, element) -> {
+        map.merge(keyMapper.apply(element), valueMapper.apply(element), mergeFunction);
+    };
+    return new CollectorImpl(mapFactory, accumulator, mapMerger(mergeFunction), CH_CONCURRENT_ID);
+}
+```
+
+`toConcurrnetMap`의 구현 코드를 보면 `UNORDERED`, `CONCURRENT`, `IDENTIFY_FINISH`가 설정되어 있는 `CH_CONCURRENT_ID`를 사용하고 있었다.
