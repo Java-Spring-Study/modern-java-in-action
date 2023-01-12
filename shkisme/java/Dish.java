@@ -21,4 +21,22 @@ public class Dish {
   public String getName() {
     return name;
   }
+
+  public Type getType() {
+    return type;
+  }
+
+  public boolean isVegetarian() {
+    return this.vegetarian;
+  }
+
+  @Override
+  public String toString() {
+    return "Dish{" +
+        "name='" + name + '\'' +
+        ", vegetarian=" + vegetarian +
+        ", calories=" + calories +
+        ", type=" + type +
+        '}';
+  }
 }
