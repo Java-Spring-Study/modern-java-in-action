@@ -244,9 +244,17 @@ public static int sum(int a, int b) {
 
 ```java
 List<Integer> numbers = Arrays.asList(1, 2, 3, 4);
-Optional<Integer> sum0 = numbers.stream().reduce((a, b) -> a + b);
-int sum1 = numbers.stream().reduce(0, (a, b) -> a + b);
+Optional<Integer> sum0 = numbers.stream().reduce((a, b) -> a + b); // 파라미터 1개
+int sum1 = numbers.stream().reduce(0, (a, b) -> a + b); // 파라미터 2개
 int sum2 = numbers.stream().reduce(0, Integer::sum);
+
+List<String> numbers2 = Arrays.asList("123", "243", "312", "422");
+int sum3 = numbers2.stream()
+        .reduce(0,
+        (sum, b) -> Integer.parseInt(b), // (sum, b) -> b.length()로 하면 누적 계산이 안되므로, 마지막 값인 422가 나온다.
+        Integer::sum);
+System.out.println("sum3 = " + sum3);
+// sum3 = 1100
 ```
 
 하지만 `reduce`를 사용하면 한 줄로 해결할 수 있다. `sum1`과 `sum2`는 같은 결과가 나오며, 특히 `sum2` 변수를 보면 메서드 참조를 사용하여 코드를 더욱 간결하게 만들 수 있었다.
@@ -269,7 +277,7 @@ T reduce(T identity, BinaryOperator<T> accumulator);
 
 *파라미터가 2개일 때*: 지금까지 설명했던 예제의 경우이다.
 
-*파라미터가 3개일 때*: `combiner`가 추가되어 병렬 처리를 할 때 다른 쓰레드의 결과를 합쳐준다고 합니다.. ~~더 정리해오겠습니다 .. ㅠㅠ~~
+*파라미터가 3개일 때*: 입력값 2개를 받아서 return 값을 반환하는 함수형 인터페이스인 `BiFunction`이 추가되었다. `sum3`과 같이 `Integer::sum`을 호출하기 전에 문자로 되어있는 숫자를 변환한다던지 추가 작업을 할 수 있다.
 
 ### findAny, findFirst
 
