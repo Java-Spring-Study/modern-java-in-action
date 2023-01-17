@@ -251,7 +251,7 @@ int sum2 = numbers.stream().reduce(0, Integer::sum);
 List<String> numbers2 = Arrays.asList("123", "243", "312", "422");
 int sum3 = numbers2.stream()
         .reduce(0,
-        (sum, b) -> Integer.parseInt(b), // (sum, b) -> b.length()로 하면 누적 계산이 안되므로, 마지막 값인 422가 나온다.
+        (sum, b) -> sum + Integer.parseInt(b), // (sum, b) -> Integer.parseInt(b)을 하면 누적 계산이 안되므로, 마지막 값인 422가 나온다.
         Integer::sum);
 System.out.println("sum3 = " + sum3);
 // sum3 = 1100
@@ -277,7 +277,7 @@ T reduce(T identity, BinaryOperator<T> accumulator);
 
 *파라미터가 2개일 때*: 지금까지 설명했던 예제의 경우이다.
 
-*파라미터가 3개일 때*: 입력값 2개를 받아서 return 값을 반환하는 함수형 인터페이스인 `BiFunction`이 추가되었다. `sum3`과 같이 `Integer::sum`을 호출하기 전에 문자로 되어있는 숫자를 변환한다던지 추가 작업을 할 수 있다.
+*파라미터가 3개일 때*: 입력값 2개를 받아서 return 값을 반환하는 함수형 인터페이스인 `BiFunction`이 추가되었다. `sum3`과 같이 `Integer::sum`을 호출하기 전에 문자로 되어있는 숫자를 변환한다던지 추가 작업을 할 수 있다. <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html">oracle docs 문서</a>
 
 ### findAny, findFirst
 
