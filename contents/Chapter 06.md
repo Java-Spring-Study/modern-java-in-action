@@ -313,7 +313,9 @@ System.out.println(menu.stream().map(Dish::getCalories).reduce(Integer::sum).get
 
 *collect와 reduce의 차이점*
 
-ㅠㅠ...
+<a href="https://stackoverflow.com/questions/22577197/java-8-streams-collect-vs-reduce">stackoverflow - collect vs reduce</a>, https://blog.naver.com/woong17/221268337085">네이버 블로그</a>
+
+reduce는 2개의 값을 하나로 만들 때 불변한 값으로 만들어내지만, collect는 누적되는 값을 변경할 수 있다고 한다..? 
 
 ### groupingBy
 
@@ -444,7 +446,14 @@ DishMap.entrySet().stream().forEach(i -> {
 
 `mapping`은 `map`처럼 매핑을 할 수 있다. 특히 `Map`으로 감싸고 있는 상황에서 데이터를 자유롭게 조작할 수 있다는 것이 큰 장점이라고 생각한다.
 
-~~`flatMapping`~~ : 아직 제대로 이해를 못해서 정리를 못했습니다...
+```java
+List<Integer> list = Stream.of(List.of(1, 2, 3, 4), List.of(5, 6, 7, 8))
+        .collect(flatMapping(i -> i.stream().filter(j -> j % 2 == 0), toList()));
+
+System.out.println("list = " + list);
+```
+
+`flatMapping` : 5장에서 나왔던 `flatMap`과 동일한 메커니즘이라고 볼 수 있다. `평탄화` 과정을 통하여 위 코드와 같이 `[1,2,3,4]`와 `[5,6,7,8]`을 `flatMapping`으로 접근할 수 있다.
 
 ```java
 // 이전에 선언했던 List<Dish> menu 변수 사용
