@@ -581,7 +581,7 @@ public static <T> Collector<T, ?, List<T>> toList() {
 
 *`accumulator - 결과 컨테이너에 요소 추가하기`* : 리듀싱 연산을 수행하는 함수를 반환한다. (요소를 추가하는 기능을 요구한다.) `toList()`는 `List::add`를 사용하여 데이터를 추가한다.
 
-*`finisher - 최종 변환값을 결과 컨테이너로 적용하기`* : 스트림 탐색을 끝낸 객체를 최종 결과로 반환하는 메서드라고 한다. `toList()`는 `CH_ID`라는 변수가 들어있는데 `Characteristics.IDENTITY_FINISH`
+*`finisher - 최종 변환값을 결과 컨테이너로 적용하기`* : 스트림 탐색을 끝낸 객체를 최종 결과로 반환하는 메서드라고 한다. `toList()`는 `CH_ID`라는 변수를 사용하는데, `Characteristics.IDENTITY_FINISH` 플래그 값이 정의되어 있다.
 
 *`combiner - 두 결과 컨테이너 병합`* : 리듀싱 연산에서 사용할 함수를 반환한다. `toList()`에서 람다식으로 구현된 `combiner` 코드를 보면 `left`에서 `right` 값을 계속 누적하여 최종적으로 `left`를 반환하고 있다. (`reduce`에서 계속 추가되는 메커니즘과 비슷하다고 보면 될 것 같다.)
 
@@ -591,7 +591,7 @@ public static <T> Collector<T, ?, List<T>> toList() {
 
 `CONCURRENT` : 병렬 리듀싱을 수행할 수 있다. `UNORDERED`를 함께 설정하지 않으면 정렬되지 않는 상황에서만 병렬 리듀싱을 수행할 수 있다. (Collectors.class에 선언된 static 필드 값들을 보면 다양한 형태로 설정이 되어 있다.)
 
-`IDENTIFY_FINISH` : 리듀싱 결과로 만들어진 객체를 바로 사용할 수 있다. (일반적인 경우에 이를 사용한다.)
+`IDENTITY_FINISH` : 리듀싱 결과로 만들어진 객체를 바로 사용할 수 있다. (일반적인 경우에 이를 사용한다.)
 
 ```java
 public static <T, K, U, M extends ConcurrentMap<K, U>> Collector<T, ?, M> toConcurrentMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends U> valueMapper, BinaryOperator<U> mergeFunction, Supplier<M> mapFactory) {
