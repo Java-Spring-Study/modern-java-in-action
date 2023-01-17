@@ -313,7 +313,7 @@ System.out.println(menu.stream().map(Dish::getCalories).reduce(Integer::sum).get
 
 *collect와 reduce의 차이점*
 
-<a href="https://stackoverflow.com/questions/22577197/java-8-streams-collect-vs-reduce">stackoverflow - collect vs reduce</a>, https://blog.naver.com/woong17/221268337085">네이버 블로그</a>
+<a href="https://stackoverflow.com/questions/22577197/java-8-streams-collect-vs-reduce">stackoverflow - collect vs reduce</a>, <a href="https://blog.naver.com/woong17/221268337085">네이버 블로그</a>
 
 reduce는 2개의 값을 하나로 만들 때 불변한 값으로 만들어내지만, collect는 누적되는 값을 변경할 수 있다고 한다..? 
 
