@@ -602,4 +602,4 @@ public static <T, K, U, M extends ConcurrentMap<K, U>> Collector<T, ?, M> toConc
 }
 ```
 
-`toConcurrnetMap`의 구현 코드를 보면 `UNORDERED`, `CONCURRENT`, `IDENTIFY_FINISH`가 설정되어 있는 `CH_CONCURRENT_ID`를 사용하고 있었다.
+`toConcurrnetMap`의 구현 코드를 보면 `UNORDERED`, `CONCURRENT`, `IDENTITY_FINISH`가 설정되어 있는 `CH_CONCURRENT_ID`를 사용하고 있었다.
