@@ -531,6 +531,8 @@ Map<Boolean, List<Dish>> DishMap2 = menu.stream().collect(partitioningBy(i -> i.
 
 `DishMap1`은 `Dish::getName`을 사용하여 이름을 기준으로 *그룹핑*을 한 것이지만, `DishMap2`는 이름이 `test`인지 아닌지를 기준으로 *파티셔닝*했다고 볼 수 있다.
 
+또한 `groupingBy`는 파라미터에서 `Function` 함수형 인터페이스를 요구하는 반면에 `partitioningBy`의 파라미터는 `boolean` 값을 반환하는 함수형 인터페이스인 `Predicate`를 정의해야 한다는 점도 다르다.
+
 ## Collector 인터페이스
 
 ```java
