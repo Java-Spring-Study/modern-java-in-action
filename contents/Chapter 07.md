@@ -161,6 +161,7 @@ public Long compute() {
 * 그러다가 작업을 더 이상 나눌 수 없게 되었을 때, **`compute`의 재귀 호출은 끝나고 `join`의 결과를 기다렸다가 더해서 결과를 반환**한다.
 * 재귀 호출된 **`compute`가 모두 종료될 때, 최종 결과**를 얻는다.
 
+<img src="https://user-images.githubusercontent.com/107912763/213862799-03f529a9-a0f2-4be3-8c3e-eacb2ef9b7fb.png"  width="500" height="400">
 
 
 ### 2. 작업 훔쳐오기
